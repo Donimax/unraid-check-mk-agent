@@ -85,7 +85,9 @@ if [ ! -f "&emhttp;/images/&name;.png" ]; then
 fi
 
 #Start xinetd
-xinetd
+if [ -z "$(pidof xinetd)" ]; then
+  xinetd
+fi
 
 </INLINE>
 </FILE>
@@ -96,7 +98,8 @@ xinetd
 echo "----------------------------------------"
 echo "-------Uninstalling Checkmk-Agent-------"
 echo "----------------------------------------"
-# Remove plugin related files
+# Kill xinetd and remove plugin related files
+kill $(pidof xinetd) &gt; /dev/null 2&gt;&amp;1
 rm -rf &plugin;
 rm -rf &emhttp;
 echo
