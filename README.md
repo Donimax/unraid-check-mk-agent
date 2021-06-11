@@ -1,2 +1,0 @@
-# unraid-check-mk-agent
-
