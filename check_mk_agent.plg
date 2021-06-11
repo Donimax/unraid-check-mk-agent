@@ -44,8 +44,8 @@ rm -f $(ls &plugin;/packages/*.txz 2>/dev/null|grep -v '&xinetd;')
 
 Monitors local services and reports any issues to the Checkmk server.  
 The agents are passive and connect to TCP Port 6556. Only on receiving a Checkmk server query will they be activated and respond with the required data.  
-If you want to install plugins place them in '/boot/config/plugins/check_mk_agent/plugins'  
-If you want to use encryption edit the file '/boot/config/plugins/check_mk_agent/encryption.cfg'
+To install plugins place them in '/boot/config/plugins/check_mk_agent/plugins'  
+To use encryption edit the file '/boot/config/plugins/check_mk_agent/encryption.cfg'
 </INLINE>
 </FILE>
 
