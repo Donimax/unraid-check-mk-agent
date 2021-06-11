@@ -12,7 +12,7 @@
   <!ENTITY xinetdmd5 "1da784d01bd5c8a8edb05feeef1ac07e">
 ]>
 
-<PLUGIN  name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;" min="6.9.0" support="https://forums.unraid.net/topic/83786-support-ich777-application-dockers/">
+<PLUGIN  name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;" min="6.8.3" support="https://forums.unraid.net/topic/83786-support-ich777-application-dockers/">
 
 <CHANGES>
 
