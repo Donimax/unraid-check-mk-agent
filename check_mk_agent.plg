@@ -100,6 +100,8 @@ echo "-------Uninstalling Checkmk-Agent-------"
 echo "----------------------------------------"
 # Kill xinetd and remove plugin related files
 kill $(pidof xinetd) &gt; /dev/null 2&gt;&amp;1
+removepkg &name;-&version;.tgz
+removepkg &xinetd;.tgz
 rm -rf &plugin;
 rm -rf &emhttp;
 echo
