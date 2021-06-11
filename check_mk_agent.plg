@@ -84,6 +84,9 @@ if [ ! -f "&emhttp;/images/&name;.png" ]; then
   cp &plugin;/&name;.png &emhttp;/images/
 fi
 
+#Start xinetd
+xinetd
+
 </INLINE>
 </FILE>
 
