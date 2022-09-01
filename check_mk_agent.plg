@@ -1,8 +1,8 @@
 <?xml version='1.0' standalone='yes'?>
 <!DOCTYPE PLUGIN [
   <!ENTITY name      "check_mk_agent">
-  <!ENTITY author    "ich777">
-  <!ENTITY version   "2021.06.11a">
+  <!ENTITY author    "berwegera">
+  <!ENTITY version   "2022.09.01a">
   <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/unraid-check-mk-agent/master">
   <!ENTITY pluginURL "&gitURL;/&name;.plg">
   <!ENTITY md5       "8172444f3c5b6b86a09ec3b05825714a">
@@ -12,9 +12,12 @@
   <!ENTITY xinetdmd5 "1da784d01bd5c8a8edb05feeef1ac07e">
 ]>
 
-<PLUGIN  name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;" min="6.8.3" support="https://forums.unraid.net/topic/83786-support-ich777-application-dockers/">
+<PLUGIN  name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;" min="6.8.3" support="https://github.com/berwegera/unraid-check-mk-agent">
 
 <CHANGES>
+
+###2022.09.01a
+- Bumped checkmk_agent to v2.1.0p9
 
 ###2021.06.10a
 - Bumped checkmk_agent to v2.0.0p5
