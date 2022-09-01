@@ -5,7 +5,7 @@
   <!ENTITY version   "2022.09.01">
   <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/unraid-check-mk-agent/master">
   <!ENTITY pluginURL "&gitURL;/&name;.plg">
-  <!ENTITY md5       "8172444f3c5b6b86a09ec3b05825714a">
+  <!ENTITY md5       "052e9c7a738db20167a86bf521a24658">
   <!ENTITY plugin    "/boot/config/plugins/&name;">
   <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
   <!ENTITY xinetd    "xinetd-2.3.15.4-x86_64-1_slonly">
