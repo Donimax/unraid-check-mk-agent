@@ -2,4 +2,5 @@
 
 This is the repository for the check-mk Agent plugin.
 
-Support Thread: https://forums.unraid.net/topic/92865-support-ich777-nvidiadvbzfsiscsimft-kernel-helperbuilder-docker/
+###2022.09.01
+- Bumped checkmk_agent to v2.1.0p9
