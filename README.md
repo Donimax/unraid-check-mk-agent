@@ -10,4 +10,4 @@ This is the repository for the check-mk Agent plugin.
 - Bumped checkmk_agent to v2.1.0p9
 
 Install in Unraid with this url:
-https://raw.githubusercontent.com/berwegera/unraid-check-mk-agent/master/check_mk_agent.plg
+https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent.plg

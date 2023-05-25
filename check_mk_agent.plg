@@ -1,7 +1,7 @@
 <?xml version='1.0' standalone='yes'?>
 <!DOCTYPE PLUGIN [
   <!ENTITY name      "check_mk_agent">
-  <!ENTITY author    "berwegera">
+  <!ENTITY author    "donimax">
   <!ENTITY version   "2022.09.10">
   <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/unraid-check-mk-agent/master">
   <!ENTITY pluginURL "&gitURL;/&name;.plg">
@@ -12,7 +12,7 @@
   <!ENTITY xinetdmd5 "1da784d01bd5c8a8edb05feeef1ac07e">
 ]>
 
-<PLUGIN  name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;" min="6.8.3" support="https://github.com/berwegera/unraid-check-mk-agent">
+<PLUGIN  name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;" min="6.8.3" support="https://github.com/donimax/unraid-check-mk-agent">
 
 <CHANGES>
 
