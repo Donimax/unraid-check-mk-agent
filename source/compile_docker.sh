@@ -9,7 +9,7 @@ slackpkg -batch=on -default_answer=y install flex binutils
 # Download deb and extract contents to temporary direction
 mkdir -p ${DATA_DIR}/deb ${DATA_DIR}/extracted
 cd ${DATA_DIR}
-wget ${CHECK_MK_URL}
+wget --no-check-certificate ${CHECK_MK_URL}
 mv ${DATA_DIR}/${DEB_NAME}  ${DATA_DIR}/deb/
 cd ${DATA_DIR}/deb
 ar x ${DEB_NAME}
