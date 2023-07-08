@@ -2,6 +2,8 @@
 
 This is the repository for the check-mk Agent plugin.
 
+###2023.07.08
+- Bumped checkmk_agent to v2.1.0p29
 
 ###2022.09.10
 - Bumped checkmk_agent to v2.1.0p11
