@@ -26,5 +26,55 @@ https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_
 The check-mk agent file can be downloaded manually into the "check_mk_agent" directory, or downloaded by the container by setting the environment variable `CHECK_MK_URL`.
 
 ```bash
-docker run -it --rm -v $(pwd)/:/build -e "CHECK_MK_URL=https://<check_mk_host>/main/check_mk/agents/check-mk-agent_<check_mk_version>_all.deb" vbatts/slackware:latest sh /build/source/compile_docker.sh
+docker run -it --rm -v $(pwd)/:/build -e "CHECK_MK_URL=https://<check_mk_host>/<check_mk_site>/check_mk/agents/check-mk-agent_<check_mk_version>_all.deb" vbatts/slackware:latest sh /build/source/compile_docker.sh
+```
+
+### Check-mk docker and smart plugin
+
+Create a script scheduled to run "At First Arry Start Only" to automatically install checkmk, Docker and Smart plugin.
+
+```bash
+#!/bin/bash
+
+# Set variables
+CHECK_MK_SERVER_URL="https://<check_mk_host>/<check_mk_site>/"
+PLUGIN_DIR="/usr/lib/check_mk_agent/plugins"
+WAIT_TIME=5 # wait time in seconds
+TIMEOUT=300 # timeout in seconds
+START_TIME=$(date +%s)
+
+# Install checkmk docker dependencies
+pip install docker
+pip3 install docker
+
+# Check if checkmk server is available.
+while true; do
+  CURRENT_TIME=$(date +%s)
+  ELAPSED_TIME=$((CURRENT_TIME - START_TIME))
+
+  if [[ $ELAPSED_TIME -ge $TIMEOUT ]]; then
+    echo "Timeout reached. Checkmk server is not available."
+    exit 1
+    break
+  fi
+
+  response=$(curl --write-out '%{http_code}' --silent --output /dev/null "${CHECK_MK_SERVER_URL}check_mk/agents/plugins/mk_docker.py")
+
+  if [[ $response -eq 200 ]]; then
+    echo "checkmk server is online"
+    break
+  else
+    echo "checkmk server is not available. Retrying in $WAIT_TIME seconds..."
+    sleep "$WAIT_TIME"
+  fi
+done
+
+#Install checkmk Docker and smart plugin
+rm -rf ${PLUGIN_DIR}
+mkdir ${PLUGIN_DIR}
+cd ${PLUGIN_DIR}
+wget ${CHECK_MK_SERVER_URL}check_mk/agents/plugins/mk_docker.py
+chmod 755  mk_docker.py
+wget ${CHECK_MK_SERVER_URL}/check_mk/agents/plugins/smart
+chmod 755 smart
 ```
