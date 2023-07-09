@@ -20,6 +20,8 @@ https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_
 
 ## Docker local build:
 
+The check-mk agent file can be downloaded manually into the "check_mk_agent" directory, or downloaded by the container by setting the environment variable `CHECK_MK_URL`.
+
 ```bash
 docker run -it --rm -v $(pwd)/:/build -e "CHECK_MK_URL=https://<check_mk_host>/main/check_mk/agents/check-mk-agent_<check_mk_version>_all.deb" vbatts/slackware:latest sh /build/source/compile_docker.sh
 ```

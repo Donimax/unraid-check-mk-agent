@@ -1,15 +1,23 @@
 # Set variables
 DATA_DIR="/build/check_mk_agent"
+
+# Download deb
+cd ${DATA_DIR}
+if [ -n "${CHECK_MK_URL}" ]; then
+wget --no-check-certificate ${CHECK_MK_URL}
+fi
+
+# Define additional variables
 DEB_NAME="$(ls -la ${DATA_DIR}/*.deb | cut -d '/' -f4)"
 LAT_V="$(echo "$DEB_NAME" | cut -d '_' -f2 | cut -d '-' -f1)"
 
 # Install needed Slackware packages
 slackpkg -batch=on -default_answer=y install flex binutils
 
-# Download deb and extract contents to temporary direction
+#Extract contents to temporary direction
+cd ${DATA_DIR}
 mkdir -p ${DATA_DIR}/deb ${DATA_DIR}/extracted
 cd ${DATA_DIR}
-wget --no-check-certificate ${CHECK_MK_URL}
 mv ${DATA_DIR}/${DEB_NAME}  ${DATA_DIR}/deb/
 cd ${DATA_DIR}/deb
 ar x ${DEB_NAME}
