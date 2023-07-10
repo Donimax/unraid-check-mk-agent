@@ -1,9 +1,11 @@
-name: test workflows
-on: [workflow_dispatch]
+name: Build Unraid check_mk agent 2.1.0pxx
+on:
+  schedule:
+    - cron: '0 1 * * 2' #01:00 Tuesday
 
 env:
   image: 'checkmk/check-mk-raw'
-  version: '21' #2.1.0pxx
+  version: '22' #2.2.0pxx
   destination_path: 'check_mk_agent'
 
 jobs:
@@ -13,9 +15,6 @@ jobs:
     steps:
       - name: Checkout all tags and branches
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: 'develop' # Testing
 
       - name: fetch latest check_mk agent image
         run : |

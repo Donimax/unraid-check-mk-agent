@@ -4,7 +4,7 @@
   <!ENTITY author    "donimax">
   <!ENTITY version   "2022.09.10.2-0">
   <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/unraid-check-mk-agent/master">
-  <!ENTITY pluginURL "&gitURL;/&name;.plg">
+  <!ENTITY pluginURL "&gitURL;/&name;20.plg">
   <!ENTITY md5       "b0234047f29e008e13a3ac52250d8646">
   <!ENTITY plugin    "/boot/config/plugins/&name;">
   <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
