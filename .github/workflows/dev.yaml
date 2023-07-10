@@ -1,0 +1,29 @@
+name: test workflows
+on: [workflow_dispatch]
+
+env:
+  image: checkmk/check-mk-raw:2.1.0p29'
+  source_path: '/opt/omd/versions/2.1.0p29.cre/share/check_mk/agents/check-mk-agent_2.1.0p29-1_all.deb'
+  destination_path: 'packages'
+
+jobs:
+  extract-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout all tags and branches
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: 'develop' # Testing
+
+      - name: Extract and Push File
+        run: |
+          container_id=$(docker create "env.image")
+          docker cp "env.container_id:env.source_path" "env.destination_path"
+          
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add packages/check-mk-agent_2.1.0p29-1_all.deb
+          git commit -m "Add deb test version 2.1.0p29"
+          git push
