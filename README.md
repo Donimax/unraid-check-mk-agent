@@ -4,7 +4,7 @@ This is the repository for the check-mk Agent plugin.
 
 ## Install in Unraid with this urls
 
-check_mk agent v2.1.0pXX:
+check_mk agent v2.2.0pXX:
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent22.plg>
 
 check_mk agent v2.1.0pXX:
