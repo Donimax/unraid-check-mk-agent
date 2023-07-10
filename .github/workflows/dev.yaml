@@ -25,5 +25,5 @@ jobs:
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add packages/check-mk-agent_2.1.0p29-1_all.deb
-          git commit -m "Add deb test version 2.1.0p30"
+          git commit -m "Add deb test version 2.1.0p29"
           git push
