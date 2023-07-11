@@ -5,11 +5,12 @@ on:
 
 env:
   image: 'checkmk/check-mk-raw'
-  version: '22' #2.2.0pxx
+  version: '2.2.0' #2.2.0pxx
+  version_short: '22'
   destination_path: 'check_mk_agent'
 
 jobs:
-  extract-push:
+  check-extract-build-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,12 +20,12 @@ jobs:
       - name: fetch latest check_mk agent image
         id: check_version
         run : |
-          current_version=$(cat build/version_$version)
-          latest_version=$(curl -s https://hub.docker.com/v2/repositories/checkmk/check-mk-raw/tags\?page_size\=1000 | jq -r '.results[].name' | grep -oP "2\.1\.0p\d+" | sort -V | tail -n 1)
+          current_version=$(cat build/version_$version_short)
+          latest_version=$(curl -s https://hub.docker.com/v2/repositories/checkmk/check-mk-raw/tags\?page_size\=1000 | jq -r '.results[].name' | grep  "$version"p | sort -V | tail -n 1)
 
           if [[ "$latest_version" > "$current_version" ]]; then
               echo "New version found: $latest_version"
-               echo "$latest_version" > build/version_$version
+               echo "$latest_version" > build/version_$version_short
               echo "latest_version=$(echo $latest_version)" >> $GITHUB_ENV
           else
               echo "No new version found."
@@ -65,10 +66,10 @@ jobs:
       - name: Update plugin file
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
         run: |
-          md5_hash=$(md5sum packages/check_mk_agent-"$(date +'%Y.%m.%d').$version".tgz | cut -d' ' -f1)
-          sed -i 's/<!ENTITY version   "[^"]*">/<!ENTITY version   "'$(date +'%Y.%m.%d').$version'">/' check_mk_agent$version.plg
-          sed -i 's@<!ENTITY md5       "[^"]*">@<!ENTITY md5       "'"${md5_hash}"'">@' check_mk_agent$version.plg
-          sed -i "/<CHANGES>/{n;s/.*/\n###$(date +'%Y.%m.%d')\n- Bumped checkmk_agent to $latest_version\n&/}" check_mk_agent$version.plg
+          md5_hash=$(md5sum packages/check_mk_agent-"$(date +'%Y.%m.%d').$version_short".tgz | cut -d' ' -f1)
+          sed -i 's/<!ENTITY version   "[^"]*">/<!ENTITY version   "'$(date +'%Y.%m.%d').$version_short'">/' check_mk_agent$version_short.plg
+          sed -i 's@<!ENTITY md5       "[^"]*">@<!ENTITY md5       "'"${md5_hash}"'">@' check_mk_agent$version_short.plg
+          sed -i "/<CHANGES>/{n;s/.*/\n###$(date +'%Y.%m.%d')\n- Bumped checkmk_agent to $latest_version\n&/}" check_mk_agent$version_short.plg
       
       - name: Create Pull Request
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
