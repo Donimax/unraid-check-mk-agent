@@ -1,8 +1,8 @@
-# Unraid check-mk Agent plugin
+# Unraid Checkmk Agent plugin
 
 This is the repository for the check-mk Agent plugin.
 
-## Install in Unraid with this urls
+## Install in Unraid Checkmk Agent plugin with this urls
 
 check_mk agent v2.2.0pXX:
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent22.plg>
@@ -15,21 +15,21 @@ Check_mk agent v2.0.0pXX:
 
 ## Docker local build
 
-The check-mk agent file can be downloaded manually into the "check_mk_agent" directory, or downloaded by the container by setting the environment variable `-e "CHECK_MK_URL=https://<check_mk_host>/<check_mk_site>/check_mk/agents/check-mk-agent_<check_mk_version>_all.deb"`.  
-Replace `<check_mk_host>` with your check_mk server url and `<check_mk_site>` with your check_mk site name. Example: `http://localhost:5000/main/`
+The Checkmk agent file can be downloaded manually into the "check_mk_agent" directory, or downloaded by the container by setting the environment variable `-e "CHECK_MK_URL=https://<check_mk_host>/<check_mk_site>/check_mk/agents/check-mk-agent_<check_mk_version>_all.deb"`.  
+Replace `<check_mk_host>` with your Checkmk server url and `<check_mk_site>` with your Checkmk site name. Example: `http://localhost:5000/main/`
 
 ```bash
 docker run -it --rm -v $(pwd)/:/build vbatts/slackware:15.0 sh /build/source/compile_docker.sh
 ```
 
-## Check-mk docker and smart plugin
+## Checkmk docker and smart plugin
 
 Requirements:
 - NerdTools plugin with python3
 - User Scripts plugin
 
-Create a script scheduled to run "At First Arry Start Only" to automatically install checkmk, Docker and Smart plugin.  
-Replace `<check_mk_host>` with your check_mk server url and `<check_mk_site>` with your check_mk site name.
+Create a script scheduled to run "At First Arry Start Only" to automatically install Checkmk, Docker and Smart plugin.  
+Replace `<check_mk_host>` with your Checkmk server url and `<check_mk_site>` with your Checkmk site name.
 
 ```bash
 #!/bin/bash
@@ -41,7 +41,7 @@ WAIT_TIME=5 # wait time in seconds
 TIMEOUT=300 # timeout in seconds
 START_TIME=$(date +%s)
 
-# Install checkmk docker dependencies
+# Install Checkmk docker dependencies
 pip install docker
 pip3 install docker
 
@@ -59,15 +59,15 @@ while true; do
   response=$(curl --write-out '%{http_code}' --silent --output /dev/null "${CHECK_MK_SERVER_URL}check_mk/agents/plugins/mk_docker.py")
 
   if [[ $response -eq 200 ]]; then
-    echo "checkmk server is online"
+    echo "Checkmk server is online"
     break
   else
-    echo "checkmk server is not available. Retrying in $WAIT_TIME seconds..."
+    echo "Checkmk server is not available. Retrying in $WAIT_TIME seconds..."
     sleep "$WAIT_TIME"
   fi
 done
 
-#Install checkmk Docker and smart plugin
+#Install Checkmk Docker and smart plugin
 rm -rf ${PLUGIN_DIR}
 mkdir ${PLUGIN_DIR}
 cd ${PLUGIN_DIR}
