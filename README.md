@@ -1,6 +1,6 @@
 # Unraid Checkmk Agent plugin
 
-This is the repository for the check-mk Agent plugin.
+This is the repository for the Checkmk Agent plugin.
 
 ## Install in Unraid Checkmk Agent plugin with this urls
 
