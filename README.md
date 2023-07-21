@@ -15,7 +15,8 @@ Check_mk agent v2.0.0pXX:
 
 ## Docker local build
 
-The check-mk agent file can be downloaded manually into the "check_mk_agent" directory, or downloaded by the container by setting the environment variable `-e "CHECK_MK_URL=https://<check_mk_host>/<check_mk_site>/check_mk/agents/check-mk-agent_<check_mk_version>_all.deb"`.  Replace `<check_mk_host>` with your check_mk server url and `<check_mk_site>` with your check_mk site name. Example: `http://localhost:5000/main/`
+The check-mk agent file can be downloaded manually into the "check_mk_agent" directory, or downloaded by the container by setting the environment variable `-e "CHECK_MK_URL=https://<check_mk_host>/<check_mk_site>/check_mk/agents/check-mk-agent_<check_mk_version>_all.deb"`.  
+Replace `<check_mk_host>` with your check_mk server url and `<check_mk_site>` with your check_mk site name. Example: `http://localhost:5000/main/`
 
 ```bash
 docker run -it --rm -v $(pwd)/:/build vbatts/slackware:15.0 sh /build/source/compile_docker.sh
@@ -27,7 +28,7 @@ Requirements:
 - NerdTools plugin with python3
 - User Scripts plugin
 
-Create a script scheduled to run "At First Arry Start Only" to automatically install checkmk, Docker and Smart plugin.
+Create a script scheduled to run "At First Arry Start Only" to automatically install checkmk, Docker and Smart plugin.  
 Replace `<check_mk_host>` with your check_mk server url and `<check_mk_site>` with your check_mk site name.
 
 ```bash
