@@ -8,6 +8,7 @@ env:
   version: '2.0.0' #2.0.0pxx
   version_short: '20'
   destination_path: 'check_mk_agent'
+  slackware_image: 'vbatts/slackware:15.0'
 
 jobs:
   check-extract-build-push:
@@ -61,7 +62,7 @@ jobs:
       - name: Create Slackware package
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
         run: |
-          docker run --rm -v $(pwd)/:/build vbatts/slackware:latest sh /build/source/compile_docker.sh
+          docker run --rm -v $(pwd)/:/build $slackware_image sh /build/source/compile_docker.sh
 
       - name: Update plugin file
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
