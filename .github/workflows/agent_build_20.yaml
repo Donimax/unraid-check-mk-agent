@@ -28,7 +28,7 @@ jobs:
                echo "$latest_version" > build/version_$version_short
               echo "latest_version=$(echo $latest_version)" >> $GITHUB_ENV
           else
-              echo "No new version found."
+              echo "No new version found to $current_version"
               echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
 
