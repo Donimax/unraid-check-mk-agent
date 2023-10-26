@@ -22,11 +22,14 @@ jobs:
         id: check_version
         run : |
           current_version=$(cat build/version_$version_short)
-          latest_version=$(curl -s https://hub.docker.com/v2/repositories/checkmk/check-mk-raw/tags\?page_size\=1000 | jq -r '.results[].name' | grep  "$version"p | sort -V | tail -n 1)
+          current_version_short=$(echo "$current_version" | cut -dp -f2)
 
-          if [[ "$latest_version" > "$current_version" ]]; then
+          latest_version_short=$(curl -s https://hub.docker.com/v2/repositories/checkmk/check-mk-raw/tags\?page_size\=1000 | jq -r '.results[].name' | grep "$version"p | cut -dp -f2 | sort -V | tail -n 1)
+          latest_version=$(echo "${version}p${latest_version_short}")
+
+          if (( "$latest_version_short" > "$current_version_short" )); then
               echo "New version found: $latest_version"
-               echo "$latest_version" > build/version_$version_short
+              echo "$latest_version" > build/version_$version_short
               echo "latest_version=$(echo $latest_version)" >> $GITHUB_ENV
           else
               echo "No new version found to $current_version"
