@@ -2,7 +2,7 @@
 
 This is the repository for the Checkmk Agent plugin.
 
-## Install in Unraid Checkmk Agent plugin with this urls
+## Install the Checkmk Agent plugin on Unraid using these URLs.
 
 check_mk agent v2.2.0pXX:
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent22.plg>
@@ -27,6 +27,7 @@ docker run -it --rm -v $(pwd)/:/build vbatts/slackware:15.0 sh /build/source/com
 Requirements:
 - NerdTools plugin with python3
 - User Scripts plugin
+- Checkmk server
 
 Create a script scheduled to run "At First Arry Start Only" to automatically install Checkmk, Docker and Smart plugin.  
 Replace `<check_mk_host>` with your Checkmk server url and `<check_mk_site>` with your Checkmk site name.
