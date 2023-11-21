@@ -71,9 +71,9 @@ To use encryption edit the file '/boot/config/plugins/check_mk_agent/encryption.
 <FILE Run="/bin/bash">
 <INLINE>
 
-#Download check_mk xinetd file
+#Create check_mk xinetd file
 if [ ! -f "/etc/xinetd.d/check_mk" ]; then
-  wget -q -nc --show-progress --progress=bar:force:noscroll -O "/etc/xinetd.d/check_mk" "https://raw.githubusercontent.com/Donimax/unraid-check-mk-agent/master/build/check_mk_xinetd"
+  cp /etc/check_mk/xinetd-service-template.cfg /etc/xinetd.d/check_mk
 fi
 
 #Download icon
