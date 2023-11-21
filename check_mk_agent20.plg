@@ -67,11 +67,6 @@ To use encryption edit the file '/boot/config/plugins/check_mk_agent/encryption.
 <FILE Run="/bin/bash">
 <INLINE>
 
-#Download check_mk xinetd file
-if [ ! -f "/etc/xinetd.d/check_mk" ]; then
-  wget -q -nc --show-progress --progress=bar:force:noscroll -O "/etc/xinetd.d/check_mk" "https://raw.githubusercontent.com/Donimax/unraid-check-mk-agent/master/build/check_mk_xinetd"
-fi
-
 #Download icon
 if [ ! -f "&plugin;/checkmk.png" ]; then
   wget -q -nc --show-progress --progress=bar:force:noscroll -O "&plugin;/&name;.png" "https://raw.githubusercontent.com/ich777/docker-templates/master/ich777/images/checkmk.png"
