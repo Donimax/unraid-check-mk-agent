@@ -144,6 +144,16 @@ rm -rf &plugin;
 rm -rf &emhttp;
 rm -rf /etc/xinetd.d/check_mk
 echo
+echo "-----------------------------------"
+echo "-------Cleanup Checkmk-Agent-------"
+echo "-----------------------------------"
+rm -rf /etc/check_mk
+rm /usr/bin/check_mk_agent
+rm /usr/bin/check_mk_caching_agent
+rm /usr/bin/mk-job
+rm -rf /usr/share/doc/check-mk-agent
+rm -rf /var/lib/cmk-agent
+echo
 echo "----------------------------------------------------------"
 echo "---------------Checkmk-Agent uninstalled!-----------------"
 echo "----------------------------------------------------------"
