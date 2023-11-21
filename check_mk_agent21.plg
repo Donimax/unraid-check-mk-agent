@@ -92,7 +92,7 @@ fi
 
 #Download icon
 if [ ! -f "&plugin;/checkmk.png" ]; then
-  wget -q -nc --show-progress --progress=bar:force:noscroll -O "&plugin;/&name;.png" "https://raw.githubusercontent.com/ich777/docker-templates/master/ich777/images/checkmk.png"
+  wget -q -nc --show-progress --progress=bar:force:noscroll -O "&plugin;/&name;.png" "https://raw.githubusercontent.com/donimax/unraid-docker-templates/master/donimax/images/checkmk.png"
 fi
 
 #Create plugins directory and link directories
