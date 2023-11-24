@@ -119,6 +119,7 @@ removepkg &name;-&version;.tgz
 removepkg &xinetd;.tgz
 rm -rf &plugin;
 rm -rf &emhttp;
+rm -rf /etc/xinetd.d/check_mk
 echo
 echo "-----------------------------------"
 echo "-------Cleanup Checkmk-Agent-------"
