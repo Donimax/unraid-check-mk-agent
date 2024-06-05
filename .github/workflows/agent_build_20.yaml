@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout all tags and branches
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: fetch latest check_mk agent image
         id: check_version
@@ -77,11 +77,9 @@ jobs:
       
       - name: Create Pull Request
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with: 
           commit-message: Bump check_mk_agent to ${{ env.latest_version }}
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           branch: bump-${{ env.latest_version }}
           delete-branch: true
           title: 'Check_mk_agent to ${{ env.latest_version }}'
