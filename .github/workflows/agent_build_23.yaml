@@ -1,0 +1,91 @@
+name: Build Unraid check_mk agent 2.3.0pxx
+on:
+  schedule:
+    - cron: '30 3 * * 3' #03:30 on Wednesday
+
+env:
+  image: 'checkmk/check-mk-raw'
+  version: '2.3.0' #2.3.0pxx
+  version_short: '23'
+  destination_path: 'check_mk_agent'
+  slackware_image: 'vbatts/slackware:15.0'
+
+jobs:
+  check-extract-build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout all tags and branches
+        uses: actions/checkout@v4
+
+      - name: fetch latest check_mk agent image
+        id: check_version
+        run : |
+          current_version=$(cat build/version_$version_short)
+          current_version_short=$(echo "$current_version" | cut -dp -f2)
+
+          latest_version_short=$(curl -s https://hub.docker.com/v2/repositories/checkmk/check-mk-raw/tags\?page_size\=1000 | jq -r '.results[].name' | grep "$version"p | cut -dp -f2 | sort -V | tail -n 1)
+          latest_version=$(echo "${version}p${latest_version_short}")
+
+          if (( "$latest_version_short" > "$current_version_short" )); then
+              echo "New version found: $latest_version"
+              echo "$latest_version" > build/version_$version_short
+              echo "latest_version=$(echo $latest_version)" >> $GITHUB_ENV
+          else
+              echo "No new version found to $current_version"
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check if Pull Request already exists
+        if: steps.check_version.outputs.skip != 'true'
+        id: check_pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Set the desired pull request name to check
+          PULL_REQUEST_NAME="Check_mk_agent to ${{ env.latest_version }}"
+          
+          # Use GitHub CLI to check if a pull request with the specified name exists in the current repository
+          RESPONSE=$(gh pr list --repo "$GITHUB_REPOSITORY" --state all --search "$PULL_REQUEST_NAME" --json "number" | jq '.[0].number')
+          
+          # Check if the response is empty (means the pull request doesn't exist)
+          if ((RESPONSE > 0)); then
+            echo "The pull request already exists."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "The pull request does not exist."
+          fi
+
+      - name: Extract
+        if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
+        run: |
+          container_id=$(docker create "$image:$latest_version")
+          docker cp "$container_id:/opt/omd/versions/$latest_version.cre/share/check_mk/agents/check-mk-agent_$latest_version-1_all.deb" "$destination_path"
+
+      - name: Create Slackware package
+        if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
+        run: |
+          docker run --rm -v $(pwd)/:/build $slackware_image sh /build/source/compile_docker.sh
+
+      - name: Update plugin file
+        if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
+        run: |
+          md5_hash=$(md5sum packages/check_mk_agent-"$(date +'%Y.%m.%d').$version_short".tgz | cut -d' ' -f1)
+          sed -i 's/<!ENTITY version   "[^"]*">/<!ENTITY version   "'$(date +'%Y.%m.%d').$version_short'">/' check_mk_agent$version_short.plg
+          sed -i 's@<!ENTITY md5       "[^"]*">@<!ENTITY md5       "'"${md5_hash}"'">@' check_mk_agent$version_short.plg
+          sed -i "/<CHANGES>/{n;s/.*/\n###$(date +'%Y.%m.%d')\n- Bumped checkmk_agent to $latest_version\n&/}" check_mk_agent$version_short.plg
+      
+      - name: Create Pull Request
+        if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
+        uses: peter-evans/create-pull-request@v6
+        with: 
+          commit-message: Bump check_mk_agent to ${{ env.latest_version }}
+          branch: bump-${{ env.latest_version }}
+          delete-branch: true
+          title: 'Check_mk_agent to ${{ env.latest_version }}'
+          body: |
+            Bump Checkmk agent to ${{ env.latest_version }}
+          labels: |
+            automated pr
+          assignees: Donimax
+          reviewers: Donimax
