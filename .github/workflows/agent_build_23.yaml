@@ -1,7 +1,7 @@
 name: Build Unraid check_mk agent 2.3.0pxx
 on:
   schedule:
-    - cron: '30 3 * * 3' #03:30 on Wednesday
+    - cron: '30 3 * * 4'
 
 env:
   image: 'checkmk/check-mk-raw'
