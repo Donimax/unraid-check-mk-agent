@@ -129,8 +129,8 @@ rm -f $(ls &plugin;/packages/*.txz 2>/dev/null|grep -v '&xinetd;')
 
 Monitors local services and reports any issues to the Checkmk server.  
 The agents are passive and connect to TCP Port 6556. Only on receiving a Checkmk server query will they be activated and respond with the required data.  
-To install plugins place them in '/usr/lib/check_mk_agent/plugins'  
-To use encryption edit the file '/boot/config/plugins/check_mk_agent/encryption.cfg'
+To install plugins, place them in '/usr/lib/check_mk_agent/plugins', but they will need to be downloaded again after each reboot.  
+To use encryption, edit the file '/boot/config/plugins/check_mk_agent/encryption.cfg'.  
 </INLINE>
 </FILE>
 
@@ -145,14 +145,6 @@ fi
 #Download icon
 if [ ! -f "&plugin;/checkmk.png" ]; then
   wget -q -nc --show-progress --progress=bar:force:noscroll -O "&plugin;/&name;.png" "https://raw.githubusercontent.com/donimax/unraid-docker-templates/master/donimax/images/checkmk.png"
-fi
-
-#Create plugins directory and link directories
-if [ ! -d "&plugin;/plugins" ]; then
-  mkdir -p &plugin;/plugins
-  ln -s /boot/config/plugins/check_mk_agent/plugins /usr/lib/check_mk_agent/plugins
-else
-  ln -s /boot/config/plugins/check_mk_agent/plugins /usr/lib/check_mk_agent/plugins
 fi
 
 #Create encryption file and link file
