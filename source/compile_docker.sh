@@ -34,4 +34,4 @@ md5sum check_mk_agent-"$(date +'%Y.%m.%d')".$VERSION.tgz > check_mk_agent-"$(dat
 
 # Move to packages folder and cleanup
 mv check_mk_agent-"$(date +'%Y.%m.%d')".$VERSION.tgz check_mk_agent-"$(date +'%Y.%m.%d')".$VERSION.tgz.md5 /build/packages
-rm -rf ${DATA_DIR}/*
+rm -rf ${DATA_DIR:?}/*
