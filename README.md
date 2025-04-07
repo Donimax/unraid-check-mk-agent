@@ -34,7 +34,7 @@ Requirements:
 - User Scripts plugin
 - Checkmk server
 
-Create a script scheduled to run "At First Arry Start Only" to automatically install Checkmk, Docker and Smart plugin.  
+Create a script scheduled to run "At Startup of Array" to automatically install Checkmk, Docker and Smart plugin.  
 Replace `<check_mk_host>` with your Checkmk server url and `<check_mk_site>` with your Checkmk site name.
 
 ```bash
