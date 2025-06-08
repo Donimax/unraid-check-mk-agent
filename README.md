@@ -6,19 +6,19 @@ This is the repository for the Checkmk Agent plugin.
 
 ## Install the Checkmk Agent plugin on Unraid using these URLs
 
-check_mk agent v2.4.0pXX:
+check_mk agent v2.4.0pXX:  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent24.plg>
 
-check_mk agent v2.3.0pXX:
+check_mk agent v2.3.0pXX: EOL (29.10.2026)  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent23.plg>
 
-check_mk agent v2.2.0pXX:
+check_mk agent v2.2.0pXX: EOL (23.11.2025)  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent22.plg>
 
-check_mk agent v2.1.0pXX:
+check_mk agent v2.1.0pXX: DEPRECATED  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent21.plg>
 
-Check_mk agent v2.0.0pXX:
+Check_mk agent v2.0.0pXX: DEPRECATED  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent20.plg>
 
 ## Docker local build
@@ -39,7 +39,7 @@ Requirements:
 - Checkmk server
 
 Create a script scheduled to run "At Startup of Array" to automatically install Checkmk, Docker and Smart plugin.  
-Replace `<check_mk_host>` with your Checkmk server url and `<check_mk_site>` with your Checkmk site name.
+Replace `<check_mk_host>` with your Checkmk server url and `<check_mk_site>` with your Checkmk site name.  
 
 ```bash
 #!/bin/bash
