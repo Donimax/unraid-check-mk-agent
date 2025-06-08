@@ -1,0 +1,114 @@
+<?xml version='1.0' standalone='yes'?>
+<!DOCTYPE PLUGIN [
+  <!ENTITY name      "check_mk_agent">
+  <!ENTITY author    "donimax">
+  <!ENTITY version   "0000.00.00.24">
+  <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/unraid-check-mk-agent/master">
+  <!ENTITY pluginURL "&gitURL;/&name;24.plg">
+  <!ENTITY md5       "00c0b1f2d3e4f5a6b7c8d9e0f1a2b3c4d5">
+  <!ENTITY plugin    "/boot/config/plugins/&name;">
+  <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
+  <!ENTITY xinetd    "xinetd-2.3.15.4-x86_64-1_slonly">
+  <!ENTITY xinetdmd5 "1da784d01bd5c8a8edb05feeef1ac07e">
+]>
+
+<PLUGIN  name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;" min="6.8.3" support="https://github.com/donimax/unraid-check-mk-agent">
+
+<CHANGES>
+
+###2025.06.08
+init check_mk_agent 2.4.0
+
+
+</CHANGES>
+
+<FILE Run="/bin/bash">
+<INLINE>
+rm -f $(ls &plugin;/packages/&name;*.tgz 2>/dev/null|grep -v '&version;')
+rm -f $(ls &plugin;/packages/*.txz 2>/dev/null|grep -v '&xinetd;')
+</INLINE>
+</FILE>
+
+<FILE Name="&plugin;/packages/&name;-&version;.tgz" Run="upgradepkg --install-new">
+<URL>&gitURL;/packages/&name;-&version;.tgz</URL>
+<MD5>&md5;</MD5>
+</FILE>
+
+<FILE Name="&plugin;/packages/&xinetd;.txz" Run="upgradepkg --install-new">
+<URL>&gitURL;/packages/&xinetd;.txz</URL>
+<MD5>&xinetdmd5;</MD5>
+</FILE>
+
+<FILE Name="&emhttp;/README.md">
+<INLINE>
+**Checkmk-Agent 2.4.0**
+
+Monitors local services and reports any issues to the Checkmk server.  
+The agents are passive and connect to TCP Port 6556. Only on receiving a Checkmk server query will they be activated and respond with the required data.  
+To install plugins, place them in '/usr/lib/check_mk_agent/plugins', but they will need to be downloaded again after each reboot.  
+To use encryption, edit the file '/boot/config/plugins/check_mk_agent/encryption.cfg'.  
+</INLINE>
+</FILE>
+
+<FILE Run="/bin/bash">
+<INLINE>
+
+#Create check_mk xinetd file
+if [ ! -f "/etc/xinetd.d/check_mk" ]; then
+  cp /etc/check_mk/xinetd-service-template.cfg /etc/xinetd.d/check_mk
+fi
+
+#Download icon
+if [ ! -f "&plugin;/checkmk.png" ]; then
+  wget -q -nc --show-progress --progress=bar:force:noscroll -O "&plugin;/&name;.png" "https://raw.githubusercontent.com/donimax/unraid-docker-templates/master/donimax/images/checkmk.png"
+fi
+
+#Create encryption file and link file
+if [ ! -f "&plugin;/encryption.cfg" ]; then
+  echo "ENCRYPTED=no
+PASSPHRASE='YOURPASSPHRASE'" > &plugin;/encryption.cfg
+  chmod 600 &plugin;/encryption.cfg
+  ln -s &plugin;/encryption.cfg /etc/check_mk/encryption.cfg
+else
+  chmod 600 &plugin;/encryption.cfg
+  ln -s &plugin;/encryption.cfg /etc/check_mk/encryption.cfg
+fi
+
+#Install icon
+if [ ! -f "&emhttp;/images/&name;.png" ]; then
+  if [ ! -d "&emhttp;/images" ]; then
+    mkdir -p &emhttp;/images
+  fi
+  cp &plugin;/&name;.png &emhttp;/images/
+fi
+
+#Start xinetd
+if [ -z "$(pidof xinetd)" ]; then
+  xinetd
+fi
+
+</INLINE>
+</FILE>
+
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+
+echo "----------------------------------------"
+echo "-------Uninstalling Checkmk-Agent-------"
+echo "----------------------------------------"
+# Kill xinetd and remove plugin related files
+kill $(pidof xinetd) &gt; /dev/null 2&gt;&amp;1
+removepkg &name;-&version;.tgz
+removepkg &xinetd;.tgz
+rm -rf &plugin;
+rm -rf &emhttp;
+rm -rf /etc/xinetd.d/check_mk
+echo
+echo "----------------------------------------------------------"
+echo "---------------Checkmk-Agent uninstalled!-----------------"
+echo "----------------------------------------------------------"
+echo
+
+</INLINE>
+</FILE>
+</PLUGIN>
