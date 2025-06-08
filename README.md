@@ -4,7 +4,10 @@ This is the repository for the Checkmk Agent plugin.
 
 [![CodeFactor](https://www.codefactor.io/repository/github/donimax/unraid-check-mk-agent/badge/master)](https://www.codefactor.io/repository/github/donimax/unraid-check-mk-agent/overview/master)
 
-## Install the Checkmk Agent plugin on Unraid using these URLs.
+## Install the Checkmk Agent plugin on Unraid using these URLs
+
+check_mk agent v2.4.0pXX:
+<https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent24.plg>
 
 check_mk agent v2.3.0pXX:
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent23.plg>
@@ -30,6 +33,7 @@ docker run -it --rm -v $(pwd)/:/build vbatts/slackware:15.0 sh /build/source/com
 ## Checkmk docker and smart plugin
 
 Requirements:
+
 - `Python 3 for UNRAID` plugin
 - User Scripts plugin
 - Checkmk server
