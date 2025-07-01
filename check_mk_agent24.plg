@@ -16,6 +16,9 @@
 
 <CHANGES>
 
+###2025.07.01
+- Added support for configuring docker plugin'
+
 ###2025.06.26
 - Bumped checkmk_agent to 2.4.0p5
 
@@ -55,7 +58,8 @@ rm -f $(ls &plugin;/packages/*.txz 2>/dev/null|grep -v '&xinetd;')
 Monitors local services and reports any issues to the Checkmk server.  
 The agents are passive and connect to TCP Port 6556. Only on receiving a Checkmk server query will they be activated and respond with the required data.  
 To install plugins, place them in '/usr/lib/check_mk_agent/plugins', but they will need to be downloaded again after each reboot.  
-To use encryption, edit the file '/boot/config/plugins/check_mk_agent/encryption.cfg'.  
+To use encryption, edit the file '/boot/config/plugins/check_mk_agent/encryption.cfg'.
+To configure docker plugin behavior, edit the file '/boot/config/plugins/check_mk_agent/docker.cfg'.
 </INLINE>
 </FILE>
 
@@ -81,6 +85,17 @@ PASSPHRASE='YOURPASSPHRASE'" > &plugin;/encryption.cfg
 else
   chmod 600 &plugin;/encryption.cfg
   ln -s &plugin;/encryption.cfg /etc/check_mk/encryption.cfg
+fi
+
+#Create docker file and link file
+if [ ! -f "&plugin;/docker.cfg" ]; then
+  echo "[DOCKER]
+# skip_sections: no sections skipped" > &plugin;/docker.cfg
+  chmod 600 &plugin;/docker.cfg
+  ln -s &plugin;/docker.cfg /etc/check_mk/docker.cfg
+else
+  chmod 600 &plugin;/docker.cfg
+  ln -s &plugin;/docker.cfg /etc/check_mk/docker.cfg
 fi
 
 #Install icon
