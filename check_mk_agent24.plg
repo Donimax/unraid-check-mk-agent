@@ -17,7 +17,7 @@
 <CHANGES>
 
 ###2025.07.01
-- Added support for configuring docker plugin'
+- Added support for configuring docker plugin
 
 ###2025.06.26
 - Bumped checkmk_agent to 2.4.0p5
