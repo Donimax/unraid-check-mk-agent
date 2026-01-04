@@ -6,19 +6,19 @@ This is the repository for the Checkmk Agent plugin.
 
 ## Install the Checkmk Agent plugin on Unraid using these URLs
 
-check_mk agent v2.4.0pXX:  
+check_mk agent v2.4.0pXX: [CURRENT](https://docs.checkmk.com/latest/en/cmk_versions.html)  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent24.plg>
 
-check_mk agent v2.3.0pXX: EOL (29.10.2026)  
+check_mk agent v2.3.0pXX: [EOL (29.10.2026)](https://docs.checkmk.com/latest/en/cmk_versions.html)  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent23.plg>
 
-check_mk agent v2.2.0pXX: EOL (23.11.2025)  
+check_mk agent v2.2.0pXX: [DEPRECATED](https://docs.checkmk.com/latest/en/cmk_versions.html)  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent22.plg>
 
-check_mk agent v2.1.0pXX: DEPRECATED  
+check_mk agent v2.1.0pXX: [DEPRECATED](https://docs.checkmk.com/latest/en/cmk_versions.html)  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent21.plg>
 
-Check_mk agent v2.0.0pXX: DEPRECATED  
+Check_mk agent v2.0.0pXX: [DEPRECATED](https://docs.checkmk.com/latest/en/cmk_versions.html)  
 <https://raw.githubusercontent.com/donimax/unraid-check-mk-agent/master/check_mk_agent20.plg>
 
 ## Docker local build
