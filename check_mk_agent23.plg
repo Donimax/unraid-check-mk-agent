@@ -4,6 +4,7 @@
   <!ENTITY author    "donimax">
   <!ENTITY version   "2026.03.19.23">
   <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/unraid-check-mk-agent/master">
+  <!ENTITY releaseURL "https://github.com/&author;/unraid-check-mk-agent/releases/download">
   <!ENTITY pluginURL "&gitURL;/&name;23.plg">
   <!ENTITY md5       "53ac9650abfba084b07078ef095811d5">
   <!ENTITY plugin    "/boot/config/plugins/&name;">
@@ -141,7 +142,7 @@ rm -f $(ls &plugin;/packages/*.txz 2>/dev/null|grep -v '&xinetd;')
 </FILE>
 
 <FILE Name="&plugin;/packages/&name;-&version;.tgz" Run="upgradepkg --install-new">
-<URL>&gitURL;/packages/&name;-&version;.tgz</URL>
+<URL>&releaseURL;/&version;/&name;-&version;.tgz</URL>
 <MD5>&md5;</MD5>
 </FILE>
 
