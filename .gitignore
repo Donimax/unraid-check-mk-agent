@@ -1,0 +1,6 @@
+# Binary packages are published as GitHub Releases, not stored in git
+packages/check_mk_agent-*.tgz
+packages/check_mk_agent-*.tgz.md5
+
+# Extracted agent working directory
+check_mk_agent/
