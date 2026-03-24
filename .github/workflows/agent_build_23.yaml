@@ -2,6 +2,11 @@ name: Build Unraid check_mk agent 2.3.0pxx
 on:
   schedule:
     - cron: '30 3 * * 4'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 env:
   image: 'checkmk/check-mk-raw'
@@ -44,10 +49,10 @@ jobs:
         run: |
           # Set the desired pull request name to check
           PULL_REQUEST_NAME="Check_mk_agent to ${{ env.latest_version }}"
-          
+
           # Use GitHub CLI to check if a pull request with the specified name exists in the current repository
           RESPONSE=$(gh pr list --repo "$GITHUB_REPOSITORY" --state all --search "$PULL_REQUEST_NAME" --json "number" | jq '.[0].number')
-          
+
           # Check if the response is empty (means the pull request doesn't exist)
           if ((RESPONSE > 0)); then
             echo "The pull request already exists."
@@ -67,18 +72,32 @@ jobs:
         run: |
           docker run --rm -v $(pwd)/:/build $slackware_image sh /build/source/compile_docker.sh
 
+      - name: Publish GitHub Release
+        if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pkg_version="$(date +'%Y.%m.%d').$version_short"
+          md5_hash=$(cut -d' ' -f1 "packages/check_mk_agent-${pkg_version}.tgz.md5")
+          echo "pkg_md5=${md5_hash}" >> $GITHUB_ENV
+          gh release create "$pkg_version" \
+            --title "check_mk_agent $latest_version ($pkg_version)" \
+            --notes "Automated release for Checkmk agent $latest_version" \
+            "packages/check_mk_agent-${pkg_version}.tgz" \
+            "packages/check_mk_agent-${pkg_version}.tgz.md5"
+          rm -f "packages/check_mk_agent-${pkg_version}.tgz" "packages/check_mk_agent-${pkg_version}.tgz.md5"
+
       - name: Update plugin file
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
         run: |
-          md5_hash=$(md5sum packages/check_mk_agent-"$(date +'%Y.%m.%d').$version_short".tgz | cut -d' ' -f1)
           sed -i 's/<!ENTITY version   "[^"]*">/<!ENTITY version   "'$(date +'%Y.%m.%d').$version_short'">/' check_mk_agent$version_short.plg
-          sed -i 's@<!ENTITY md5       "[^"]*">@<!ENTITY md5       "'"${md5_hash}"'">@' check_mk_agent$version_short.plg
+          sed -i 's@<!ENTITY md5       "[^"]*">@<!ENTITY md5       "'"${{ env.pkg_md5 }}"'">@' check_mk_agent$version_short.plg
           sed -i "/<CHANGES>/{n;s/.*/\n###$(date +'%Y.%m.%d')\n- Bumped checkmk_agent to $latest_version\n&/}" check_mk_agent$version_short.plg
-      
+
       - name: Create Pull Request
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
         uses: peter-evans/create-pull-request@v6
-        with: 
+        with:
           commit-message: Bump check_mk_agent to ${{ env.latest_version }}
           branch: bump-${{ env.latest_version }}
           delete-branch: true
