@@ -1,7 +1,7 @@
 name: Build Unraid check_mk agent 2.3.0pxx
 on:
   schedule:
-    - cron: '30 3 * * 4'
+    - cron: '30 3 * * *'
   workflow_dispatch:
 
 permissions:
