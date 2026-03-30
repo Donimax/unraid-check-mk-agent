@@ -96,7 +96,7 @@ jobs:
 
       - name: Create Pull Request
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           commit-message: Bump check_mk_agent to ${{ env.latest_version }}
           branch: bump-${{ env.latest_version }}
