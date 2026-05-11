@@ -1,3 +1,5 @@
+set -e
+
 # Set variables
 DATA_DIR="/build/check_mk_agent"
 
