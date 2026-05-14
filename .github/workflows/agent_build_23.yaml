@@ -29,13 +29,13 @@ jobs:
           current_version=$(cat build/version_$version_short)
           current_version_short=$(echo "$current_version" | cut -dp -f2)
 
-          latest_version_short=$(curl -s https://hub.docker.com/v2/repositories/checkmk/check-mk-raw/tags\?page_size\=1000 | jq -r '.results[].name' | grep "$version"p | cut -dp -f2 | sort -V | tail -n 1)
+          latest_version_short=$(curl -s https://hub.docker.com/v2/repositories/$image/tags\?page_size\=1000 | jq -r '.results[].name' | grep "$version"p | cut -dp -f2 | sort -V | tail -n 1)
           latest_version=$(echo "${version}p${latest_version_short}")
 
           if (( "$latest_version_short" > "$current_version_short" )); then
               echo "New version found: $latest_version"
               echo "$latest_version" > build/version_$version_short
-              echo "latest_version=$(echo $latest_version)" >> $GITHUB_ENV
+              echo "latest_version=$latest_version" >> $GITHUB_ENV
           else
               echo "No new version found to $current_version"
               echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -66,6 +66,7 @@ jobs:
         run: |
           container_id=$(docker create "$image:$latest_version")
           docker cp "$container_id:/opt/omd/versions/$latest_version.cre/share/check_mk/agents/check-mk-agent_$latest_version-1_all.deb" "$destination_path"
+          docker rm "$container_id"
 
       - name: Create Slackware package
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
