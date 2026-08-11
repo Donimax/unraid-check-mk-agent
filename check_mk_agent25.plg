@@ -2,11 +2,11 @@
 <!DOCTYPE PLUGIN [
   <!ENTITY name      "check_mk_agent">
   <!ENTITY author    "donimax">
-  <!ENTITY version   "2026.07.29.25">
+  <!ENTITY version   "2026.08.11.25">
   <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/unraid-check-mk-agent/master">
   <!ENTITY releaseURL "https://github.com/&author;/unraid-check-mk-agent/releases/download">
   <!ENTITY pluginURL "&gitURL;/&name;25.plg">
-  <!ENTITY md5       "e120d2f85ab6ad31206bd42cda530a89">
+  <!ENTITY md5       "3d6077c8be6cc577e1b855c673f1e19e">
   <!ENTITY plugin    "/boot/config/plugins/&name;">
   <!ENTITY emhttp    "/usr/local/emhttp/plugins/&name;">
   <!ENTITY xinetd    "xinetd-2.3.15.4-x86_64-1_slonly">
@@ -16,6 +16,9 @@
 <PLUGIN  name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;" min="6.8.3" support="https://github.com/donimax/unraid-check-mk-agent">
 
 <CHANGES>
+
+###2026.08.11
+- Bumped checkmk_agent to 2.5.0p11
 
 ###2026.07.29
 - Bumped checkmk_agent to 2.5.0p10
