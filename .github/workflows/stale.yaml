@@ -1,0 +1,32 @@
+name: stale issues
+# Only issues the maintainer answered (label "waiting for reply") are handled.
+# No reply for 14 days -> "stale" + reminder; 7 more days -> closed.
+on:
+  schedule:
+    - cron: '30 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v11
+        with:
+          only-issue-labels: 'waiting for reply'
+          days-before-issue-stale: 14
+          days-before-issue-close: 7
+          stale-issue-label: 'stale'
+          stale-issue-message: >
+            This issue has been waiting for a reply for 14 days.
+            It will be closed in 7 days if there is no further activity.
+            Just leave a comment if the problem still exists.
+          close-issue-message: >
+            Closed because there was no reply. Feel free to reopen or open a
+            new issue if the problem still exists.
+          close-issue-reason: 'not_planned'
+          # never touch pull requests (dependabot / version bump PRs)
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
