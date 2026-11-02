@@ -10,6 +10,8 @@ env:
 
 jobs:
   extract-build-push:
+    # only run in the original repo, not in forks
+    if: github.repository == 'Donimax/unraid-check-mk-agent'
     runs-on: ubuntu-latest
 
     steps:
