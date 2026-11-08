@@ -73,6 +73,11 @@ jobs:
         run: |
           docker run --rm -v $(pwd)/:/build $slackware_image sh /build/source/compile_docker.sh
 
+      - name: Test agent package
+        if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
+        run: |
+          docker run --rm -v $(pwd)/:/build $slackware_image bash /build/source/test_docker.sh "$latest_version"
+
       - name: Publish GitHub Release
         if: steps.check_version.outputs.skip != 'true' && steps.check_pr.outputs.skip != 'true'
         env:
